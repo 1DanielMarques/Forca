@@ -13,6 +13,7 @@ import java.util.*;
      */
 public class Main {
 
+
     public static List<String> natureza = new ArrayList<String>(Arrays.asList("Fauna", "Arvore", "Animal", "Rocha", "Oceano", "Peixe", "Ave", "Oxigenio", "Fotossintese", "Biodiversidade"));
     public static List<String> educacao = new ArrayList<String>(Arrays.asList("Professor", "Aluno", "Materias", "Prova", "Trabalho", "Nota", "Recuperacao", "Boletim", "Diretor", "Faculdade"));
     public static List<String> esportes = new ArrayList<String>(Arrays.asList("Bola", "Futebol", "Equipe", "Basquete", "Volei", "Olimpiada", "Treinador", "Torcida", "Competicao", "Natacao"));
@@ -24,8 +25,6 @@ public class Main {
     public static void main(String[] args) {
         //toLowCase natureza.get(0).toLowerCase();
         Scanner sc = new Scanner(System.in);
-        String matriz[][] = new String[6][4];
-
 
         int opcao = 0;
         do {
@@ -44,7 +43,7 @@ public class Main {
                 case 1:
                     System.out.println(sorteiaPalavra(natureza, sorteia()));
                     System.out.println("Tamanho palavra: " + tamanhoPalavra);
-                   // desenhaMatriz();
+                    desenhaMatriz();
 
                     break;
                 case 2:
@@ -68,7 +67,6 @@ public class Main {
         int index = gerador.nextInt(10);
         System.out.println("Index Sorteado: " + index);
         return index;
-
     }
 
     public static String sorteiaPalavra(List tema, int index) {
@@ -77,20 +75,70 @@ public class Main {
     }
 
     public static void desenhaMatriz() {
-        int colunas = 4 + tamanhoPalavra;
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j <= colunas; j++) {
-                // matriz[i][j];
-                System.out.println("-");
-
-
-
-
+        int colunas =14;
+        System.out.println(colunas);
+        String matriz[][] = new String[7][14];
+        for (int linha = 0; linha < 1; linha++) {
+            for (int coluna = 0; coluna < colunas; coluna++) {
+                matriz[linha][coluna] = "—";
             }
+        }
+        for (int linha = 5; linha < 6; linha++) {
+            for (int coluna = 0; coluna < colunas; coluna++) {
+                matriz[linha][coluna] = "—";
+            }
+        }
 
+        for (int linha = 1; linha < 5; linha++) {
+            matriz[linha][0] = "|";
+        }
+
+        for (int linha = 1; linha < 5; linha++) {
+            matriz[linha][colunas - 1] = "|";
+        }
+
+        for (int linha = 1; linha < 5; linha++) {
+            matriz[linha][1] = "|";
+        }
+        matriz[4][2] = "—";
+        matriz[4][3] = "—";
+        matriz[3][2] = "";
+        matriz[2][2] = "";
+        matriz[2][2] = "Letra:" + String.valueOf(tamanhoPalavra);
+        matriz[1][2] = "";
+        matriz[3][3] = " |";
+        matriz[2][3] = "  ";
+        matriz[1][3] = "  ";
+        matriz[2][3] = "  ";
+
+        for (int linha = 1; linha < 5; linha++) {
+            for (int coluna = 4; coluna < colunas; coluna++) {
+                matriz[linha][coluna] = "";
+            }
         }
 
 
+        matriz[4][4] = "";
+        matriz[3][4] = "";
+        matriz[2][4] = "";
+        matriz[1][4] = "";
+
+
+
+        /*PREENCHER
+        TODAS as linhas da primeira coluna
+        TODAS as colunas da primeira linha
+         " "
+        TODAS as linhas da ULTIMA coluna
+        TODAS as colunas da ULTIMA linha
+         */
+
+        for (int linha = 5; linha > -1; linha--) {
+            for (int coluna = 0; coluna < colunas; coluna++) {
+                System.out.print(" " + matriz[linha][coluna]);
+            }
+            System.out.println();
+        }
     }
 
 
