@@ -2,9 +2,20 @@ import java.util.Random;
 
 public class teste {
     public static void main(String[] args) {
-        Random gerador = new Random();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(gerador.nextInt(10));
+
+        String texto = "banana,maçã,laranja";
+
+        String frutas[] = texto.split("");
+        System.out.println(frutas[0]); //imprime banana
+        System.out.println(frutas[1]); //imprime maçã
+        System.out.println(frutas[2]); //imprime laranja[/code]
+
+        String banana = "b,a,n,a,n,a";
+        String letras[] = banana.split(",");
+        for(int i =0; i<letras.length;i++){
+            System.out.println(letras[i]);
         }
+
+
     }
 }
