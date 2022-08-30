@@ -3,6 +3,7 @@ import java.util.*;
 public class Main {
 
     public static String letraUsuario = "";
+    public static String letrasErradas[] = new String[10];
     public static String palavra = "";
     public static List<String> natureza = new ArrayList<String>(Arrays.asList("f,a,u,n,a", "a,r,v,o,r,e", "a,n,i,m,a,l", "r,o,c,h,a", "o,c,e,a,n,o", "p,e,i,x,e", "a,v,e", "o,x,i,g,e,n,i,o", "f,o,t,o,s,s,i,n,t,e,s,e", "b,i,o,d,i,v,e,r,s,i,d,a,d,e"));
     public static List<String> educacao = new ArrayList<String>(Arrays.asList("p,r,o,f,e,s,s,o,r", "a,l,u,n,o", "m,a,t,e,r,i,a,s", "p,r,o,v,a", "t,r,a,b,a,l,h,o", "n,o,t,a", "r,e,c,u,p,e,r,a,c,a,o", "b,o,l,e,t,i,m", "d,i,r,e,t,o,r", "f,a,c,u,l,d,a,d,e"));
@@ -13,8 +14,10 @@ public class Main {
 
     public static String letras[];
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws InterruptedException {
+        for (int i = 0; i < letrasErradas.length; i++) {
+            letrasErradas[i] = "";
+        }
         Scanner sc = new Scanner(System.in);
 
         int opcao = 0;
@@ -30,18 +33,17 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    int contador = 0;
+                    int contador = 10;
                     boolean verifica;
+                    int indice = 0;
 
                     sorteiaPalavra(natureza, sorteia());
-                    System.out.println("Tamanho palavra: " + tamanhoPalavra);
                     boolean criada = true;
                     int linhaAux = 7;
                     int colunaAux = tamanhoPalavra + 5;
                     String matriz[][] = new String[linhaAux][colunaAux];
                     do {
                         if (criada) {
-                            preencheVazio(matriz, linhaAux, colunaAux);
                             desenhaMatriz(matriz, linhaAux, colunaAux);
                             criada = false;
                         }
@@ -50,20 +52,37 @@ public class Main {
                         verifica = false;
                         for (int i = 0; i < letras.length; i++) {
                             if (letraUsuario.equals(letras[i])) {
-                                /*A V E a == 0 coluna == 4 + 1
-                                matriz[2][coluna] = letras[i] */
                                 int aux = 4 + i;
                                 matriz[2][aux] = letraUsuario;
-                                System.out.println("Valor letra usuario: " + letraUsuario);
                                 verifica = true;
                             }
                         }
+
                         if (verifica == false) {
-                            contador++;
-                            System.out.println("CONTADOR SOMOU: " + contador);
+                            contador--;
+                            letrasErradas[indice] = letraUsuario;
+                            indice++;
+                            System.out.println("Tentativas: " + contador);
                         }
                         matrizAtual(matriz, linhaAux, colunaAux);
-                    } while (contador < 10);
+                        if (verificaPalavra(matriz, colunaAux)) {
+                            System.out.println("--PARABÉNS!--");
+                            System.out.println("Erros: " + (10 - contador));
+                            System.out.print("Letras erradas: ");
+                            for (int i = 0; i < letrasErradas.length; i++) {
+                                if (letrasErradas[i].equals("")) {
+                                    break;
+                                }
+                                System.out.print(letrasErradas[i] + " | ");
+
+                            }
+                            System.out.println();
+
+                            Thread.sleep(4000);
+                            break;
+                        } //IMPLEMENTAR LOGICA SE NAO COMPLETOU A PALAVRA
+                    } while (contador > 0);
+
 
                     break;
                 case 2:
@@ -90,6 +109,19 @@ public class Main {
         } while (opcao != 9);
     }
 
+    public static boolean verificaPalavra(String matriz[][], int colunaAux) {
+        boolean verificaPalavra = false;
+        for (int coluna = 4; coluna < colunaAux; coluna++) {
+            if (!matriz[2][coluna].equals(" ")) {
+                verificaPalavra = true;
+            } else {
+                verificaPalavra = false;
+                break;
+            }
+        }
+        return verificaPalavra;
+    }
+
     public static void matrizAtual(String matriz[][], int linhaAux, int colunaAux) {
         for (int linha = linhaAux - 1; linha > -1; linha--) {
             for (int coluna = 0; coluna < colunaAux; coluna++) {
@@ -99,24 +131,16 @@ public class Main {
         }
     }
 
-    public static void preencheVazio(String matriz[][], int linhaAux, int colunaAux) {
-        for (int linha = 2; linha < 5; linha++) {
-            for (int coluna = 4; coluna < colunaAux - 1; coluna++) {
-                matriz[linha][coluna] = " ";
-            }
-        }
-    }
-
     public static Integer sorteia() {
         Random gerador = new Random();
         int index = gerador.nextInt(10);
-        System.out.println("Index Sorteado: " + index);
         return index;
     }
 
     public static String sorteiaPalavra(List tema, int index) {
         palavra = tema.get(index).toString();
         letras = palavra.split(",");
+        System.out.print("Palavra: ");
         for (int i = 0; i < letras.length; i++) {
             System.out.print(letras[i]);
         }
@@ -126,18 +150,14 @@ public class Main {
     }
 
     public static void desenhaMatriz(String matriz[][], int linhaAux, int colunaAux) {
-
-        System.out.println(colunaAux);
-
-
         for (int linha = 0; linha < 1; linha++) {
             for (int coluna = 1; coluna < colunaAux - 1; coluna++) {
-                matriz[linha][coluna] = "P";
+                matriz[linha][coluna] = "-";
             }
         }
         for (int linha = linhaAux - 1; linha < 7; linha++) {
             for (int coluna = 1; coluna < colunaAux - 1; coluna++) {
-                matriz[linha][coluna] = "H";
+                matriz[linha][coluna] = "_";
             }
         }
 
@@ -147,16 +167,12 @@ public class Main {
         for (int linha = 1; linha < linhaAux - 1; linha++) {
             matriz[linha][1] = "X";
         }
-        //PODE SER
         for (int coluna = 4; coluna < colunaAux - 1; coluna++) {
             matriz[5][coluna] = " ";
         }
 
         matriz[5][2] = "X";
         matriz[5][3] = "X";
-
-        //matriz[3][2] = "Letra:" + String.valueOf(tamanhoPalavra);
-        //pode ser isso
         matriz[3][2] = " ";
         matriz[3][3] = " ";
         matriz[1][2] = " ";
@@ -165,15 +181,14 @@ public class Main {
         matriz[2][3] = " ";
         matriz[4][2] = " ";
         matriz[4][3] = "X";
-
-
         for (int i = 4; i < colunaAux - 1; i++) {
             matriz[1][i] = "_";
         }
-
-       /* for (int i = 4; i < colunaAux - 1; i++) {
-            matriz[2][i] = "a";
-        }*/
+        for (int linha = 2; linha < 5; linha++) {
+            for (int coluna = 4; coluna < colunaAux - 1; coluna++) {
+                matriz[linha][coluna] = " ";
+            }
+        }
         for (int linha = 6; linha > -1; linha--) {
             matriz[linha][colunaAux - 1] = "|";
         }
