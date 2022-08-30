@@ -31,42 +31,39 @@ public class Main {
             switch (opcao) {
                 case 1:
                     int contador = 0;
-                    boolean verifica = false;
+                    boolean verifica;
 
                     sorteiaPalavra(natureza, sorteia());
                     System.out.println("Tamanho palavra: " + tamanhoPalavra);
                     boolean criada = true;
+                    int linhaAux = 7;
+                    int colunaAux = tamanhoPalavra + 5;
+                    String matriz[][] = new String[linhaAux][colunaAux];
                     do {
-                        int linhaAux = 7;
-                        int colunaAux = tamanhoPalavra + 5;
-                        String matriz[][] = new String[linhaAux][colunaAux];
                         if (criada) {
                             preencheVazio(matriz, linhaAux, colunaAux);
+                            desenhaMatriz(matriz, linhaAux, colunaAux);
                             criada = false;
                         }
-
-                        desenhaMatriz(matriz, linhaAux, colunaAux);
                         System.out.print("Informe uma letra: ");
                         letraUsuario = sc.next();
-
-
                         verifica = false;
                         for (int i = 0; i < letras.length; i++) {
                             if (letraUsuario.equals(letras[i])) {
                                 /*A V E a == 0 coluna == 4 + 1
                                 matriz[2][coluna] = letras[i] */
                                 int aux = 4 + i;
-
                                 matriz[2][aux] = letraUsuario;
                                 System.out.println("Valor letra usuario: " + letraUsuario);
-
-                                desenhaMatriz(matriz, linhaAux, colunaAux);
-                                break;
-                            } else {
-                                contador++;
+                                verifica = true;
                             }
                         }
-                    } while (contador <= 10);
+                        if (verifica == false) {
+                            contador++;
+                            System.out.println("CONTADOR SOMOU: " + contador);
+                        }
+                        matrizAtual(matriz, linhaAux, colunaAux);
+                    } while (contador < 10);
 
                     break;
                 case 2:
@@ -93,11 +90,19 @@ public class Main {
         } while (opcao != 9);
     }
 
+    public static void matrizAtual(String matriz[][], int linhaAux, int colunaAux) {
+        for (int linha = linhaAux - 1; linha > -1; linha--) {
+            for (int coluna = 0; coluna < colunaAux; coluna++) {
+                System.out.print(" " + matriz[linha][coluna]);
+            }
+            System.out.println();
+        }
+    }
+
     public static void preencheVazio(String matriz[][], int linhaAux, int colunaAux) {
-        System.out.println(colunaAux);
-        for (int i = 0; i < linhaAux; i++) {
-            for (int j = 0; j < colunaAux; j++) {
-                matriz[i][j] = "";
+        for (int linha = 2; linha < 5; linha++) {
+            for (int coluna = 4; coluna < colunaAux - 1; coluna++) {
+                matriz[linha][coluna] = " ";
             }
         }
     }
@@ -123,12 +128,7 @@ public class Main {
     public static void desenhaMatriz(String matriz[][], int linhaAux, int colunaAux) {
 
         System.out.println(colunaAux);
-        for (int i = 0; i < linhaAux; i++) {
-            for (int j = 0; j < colunaAux; j++) {
-                System.out.print(matriz[i][j]);
-            }
-            System.out.println();
-        }
+
 
         for (int linha = 0; linha < 1; linha++) {
             for (int coluna = 1; coluna < colunaAux - 1; coluna++) {
@@ -156,7 +156,7 @@ public class Main {
         matriz[5][3] = "X";
 
         //matriz[3][2] = "Letra:" + String.valueOf(tamanhoPalavra);
-       //pode ser isso
+        //pode ser isso
         matriz[3][2] = " ";
         matriz[3][3] = " ";
         matriz[1][2] = " ";
