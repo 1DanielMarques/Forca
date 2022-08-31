@@ -32,26 +32,26 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    forca(natureza);
+                    forca(natureza,"NATUREZA");
                     break;
                 case 2:
-                    forca(educacao);
+                    forca(educacao,"EDUCAÇÃO");
                     break;
                 case 3:
-                    forca(esportes);
+                    forca(esportes,"ESPORTES");
                     break;
                 case 4:
-                    forca(tecnologia);
+                    forca(tecnologia,"TECNOLOGIA");
                     break;
                 case 5:
-                    forca(cinema);
+                    forca(cinema,"CINEMA");
                     break;
             }
         } while (opcao != 9);
     }
 
     // Método que faz toda a lógica do jogo
-    public static void forca(String[] tema) throws InterruptedException {
+    public static void forca(String[] tema,String nomeTema) throws InterruptedException {
         int contador = 10;
         boolean verifica;
         int indice = 0;
@@ -63,6 +63,7 @@ public class Main {
         String matriz[][] = new String[linhaAux][colunaAux];
         do {
             if (criada) {
+                System.out.println("    --"+nomeTema+"--");
                 desenhaMatriz(matriz, linhaAux, colunaAux);
                 criada = false;
             }
@@ -91,8 +92,10 @@ public class Main {
                 contador--;
                 letrasErradas[indice] = letraUsuario;
                 indice++;
-                System.out.println("Tentativas: " + contador);
+                //System.out.println("Tentativas: " + contador);
             }
+            System.out.println("\n\n");
+            System.out.println("    --"+nomeTema+"--");
             matrizAtual(matriz, linhaAux, colunaAux);
             if (verificaPalavra(matriz, colunaAux)) {
                 System.out.println("--PARABÉNS!--");
@@ -173,42 +176,43 @@ public class Main {
         // Desenha "_" borda superior
         for (int linha = linhaAux - 1; linha < 7; linha++) {
             for (int coluna = 1; coluna < colunaAux - 1; coluna++) {
-                matriz[linha][coluna] = "_";
+                matriz[linha][coluna] = "=";
             }
         }
         // Desenha "_" borda inferior
         for (int linha = 0; linha < 1; linha++) {
             for (int coluna = 1; coluna < colunaAux - 1; coluna++) {
-                matriz[linha][coluna] = "-";
+                matriz[linha][coluna] = "=";
             }
         }
         // Desenha "|" borda esquerda
         for (int linha = 0; linha < linhaAux; linha++) {
-            matriz[linha][0] = "|";
+            matriz[linha][0] = "│";
         }
         // Desenha "|" borda direita
         for (int linha = 6; linha > -1; linha--) {
-            matriz[linha][colunaAux - 1] = "|";
+            matriz[linha][colunaAux - 1] = "│";
         }
         // Desenha vertical forca
         for (int linha = 1; linha < linhaAux - 1; linha++) {
-            matriz[linha][1] = "X";
+            matriz[linha][1] = "|";
         }
         // Desenha resto da forca
         for (int linha = 1; linha <= 5; linha++) {
             for (int coluna = 2; coluna <= 3; coluna++) {
-                // Desenha 2 X horizontais forca
+                // Desenha ultimo X vertical forca
                 if (linha == 4 && coluna == 3) {
-                    matriz[linha][coluna] = "X";
+                    matriz[linha][coluna] = "§";
                 } else if (linha == 5) {
-                    // Desenha ultimo X vertical forca
-                    matriz[linha][coluna] = "X";
+                    // Desenha 2 X horizontais forca
+                    matriz[linha][coluna] = "—";
                 } else {
                     // Desenha " " embaixo da forca/antes da palavra
                     matriz[linha][coluna] = " ";
                 }
             }
         }
+        matriz[3][3] = "O";
         // Desenha "_" das letras
         for (int i = 4; i < colunaAux - 1; i++) {
             matriz[1][i] = "_";
