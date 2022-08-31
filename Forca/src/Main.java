@@ -140,11 +140,12 @@ public class Main {
     public static String sorteiaPalavra(List tema, int index) {
         palavra = tema.get(index).toString();
         letras = palavra.split(",");
-        System.out.print("Palavra: ");
+       /* Mostra a palavra sorteada
+       System.out.print("Palavra: ");
         for (int i = 0; i < letras.length; i++) {
             System.out.print(letras[i]);
         }
-        System.out.println();
+        System.out.println();*/
         tamanhoPalavra = letras.length;
         return tema.get(index).toString();
     }
@@ -171,16 +172,32 @@ public class Main {
             matriz[5][coluna] = " ";
         }
 
-        matriz[5][2] = "X";
-        matriz[5][3] = "X";
-        matriz[3][2] = " ";
-        matriz[3][3] = " ";
+        for (int linha = 1; linha <= 4; linha++) {
+            for (int coluna = 2; coluna <= 3; coluna++) {
+                if (linha == 4 && coluna == 3) {
+                    matriz[linha][coluna] = "X";
+                } else {
+                    matriz[linha][coluna] = " ";
+                }
+            }
+        }
+        /*
+        // OK
         matriz[1][2] = " ";
         matriz[1][3] = " ";
+        // OK
         matriz[2][2] = " ";
         matriz[2][3] = " ";
+        // OK
+        matriz[3][2] = " ";
+        matriz[3][3] = " ";
+        // OK
         matriz[4][2] = " ";
-        matriz[4][3] = "X";
+        matriz[4][3] = "X";*/
+        matriz[5][2] = "X";
+        matriz[5][3] = "X";
+
+
         for (int i = 4; i < colunaAux - 1; i++) {
             matriz[1][i] = "_";
         }
